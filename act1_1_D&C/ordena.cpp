@@ -23,7 +23,10 @@ array
 */
 void merge(vector<int> &arr, int lo, int mid, int hi)
 {
-    // copy vectors
+    // copy vectors TODO: this is inneficient in terms of memory, but it's the
+    // easiest way to implement it. We could adjust `doMergeSort` function to
+    // pass an auxiliar vector to avoid this?
+
     vector<int> left(arr.begin() + lo, arr.begin() + mid + 1);
     vector<int> right(arr.begin() + mid + 1, arr.begin() + hi + 1);
 
@@ -118,28 +121,38 @@ place
 */
 int partition(vector<int> &arr, int lo, int hi)
 {
-    // // Partir en a[lo..i-1] y a[i], a[i+1..hi]
-
-    // initialize pointers
     int i = lo;      // left
     int j = hi + 1;  // right
-    int v = arr[lo]; // pivot point
+    int v = arr[lo]; // pivot
+    bool pointersCrossed = false;
 
-    while (i >= j) // TODO: NOT SURE IF THIS IS CORRECT. IS THE BREAK WHEN THEY CROSS OR AFTER THEY CROSS >= vs >...
+    while (!pointersCrossed)
     {
-        if (arr[i] < v)
+        // Find the next element from the left that is >= pivot
+        do
         {
-            i += 1;
-        }
-        if (arr[j] > v)
+            i++;                         // move the pointer to the right
+        } while (i <= hi && arr[i] < v); // as long as its value is less than the pivot
+
+        // Find the next element from the right that is <= pivot
+        do
         {
-            j -= 1;
+            j--;                         // move the pointer to the left
+        } while (j >= lo && arr[j] > v); // as long as its value is greater than the pivot
+
+        // Check if the two pointers have crossed each other
+        pointersCrossed = i >= j;
+
+        if (!pointersCrossed)
+        {
+            // Swap the two values
+            swap(arr[i], arr[j]);
         }
     }
-    // swap a[i] with a[j]
 
-    v = arr[j]; // Point to the moved pivot
-    return j;   // con a[lo..j-1] <= a[j] <= a[j+1..hi].
+    // Swap the pivot with the appropriate value
+    swap(arr[lo], arr[j]); // j is the new pivot point
+    return j;              // return the new pivot point
 }
 
 /*
@@ -169,7 +182,7 @@ This function will apply the quick sort algorithm to sort an array of integers
 
 @return: the sorted array (in ascending order)
 */
-vector<int> quickSort(vector<int> &arr)
+vector<int> quickSort(const vector<int> &arr)
 {
     // Copy the input array
     vector<int> sortedArray = arr;
