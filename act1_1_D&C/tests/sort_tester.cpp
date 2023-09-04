@@ -1,3 +1,5 @@
+// For testing purposes only.
+// This file is not part of the project.
 #include "sort_tester.h"
 
 void SortTester::printData(const std::vector<int> &data)

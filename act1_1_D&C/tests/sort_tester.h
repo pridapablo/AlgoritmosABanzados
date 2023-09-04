@@ -1,3 +1,5 @@
+// For testing purposes only.
+// This file is not part of the project.
 #ifndef SORT_TESTER_H
 #define SORT_TESTER_H
 
