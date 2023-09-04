@@ -18,7 +18,6 @@ Clean public interface for the mergeSort algorithm (to comply with the
 activity's instructions)
 
 @param arr: the array to be sorted
-
 @return: the sorted array (in ascending order)
 */
 vector<int> mergeSort(const vector<int> &arr)
@@ -39,7 +38,7 @@ call. Will sort the array in place.
 */
 void doMergeSort(vector<int> &arr, int lo, int hi)
 {
-    if (lo < hi)
+    if (lo >= hi)
     {
         return;
     }
@@ -64,7 +63,17 @@ Helper function for mergeSort. This function will apply the merge step in place
 @param mid: the middle index of the array @param hi: the higher index of the
 array
 */
-void merge(vector<int> &arr, int lo, int mid, int hi);
+void merge(vector<int> &arr, int lo, int mid, int hi)
+{
+    // copy vectors
+    vector<int> left(arr.begin() + lo, arr.begin() + mid + 1);
+    vector<int> right(arr.begin() + mid + 1, arr.begin() + hi + 1);
+
+    // initialize pointers
+    int i = 0;  // left
+    int j = 0;  // right
+    int k = lo; // pointer for the main arr to place merged elements
+}
 
 /*
 This function will apply the quick sort algorithm to sort an array of integers
@@ -86,40 +95,54 @@ vector<int> readData(string fileName)
     ifstream file(fileName);
 
     if (!file)
-    { // check if the file was successfully opened
+    {
         cout << "Error opening file: " << fileName << "\n";
         return data;
     }
 
     string line;
     int n = 0;
-    // read each line of the file Line 1: n, the number of elements in the array
-    // Line 2...n: the elements of the array
 
-    try
+    if (getline(file, line))
     {
-        if (getline(file, line))
+        try
         {
             n = stoi(line);
         }
-
-        for (int i = 0; i < n; i++)
+        catch (const exception &)
         {
-            if (getline(file, line))
-            {
-                data.push_back(stoi(line));
-            }
+            cout << "Error: First line of file " << fileName << " is not an integer. Exiting...\n";
+            return data;
         }
     }
-    catch (exception e)
+    else
     {
-        cout << "Error: Non-integer value found in file " << fileName << " on line " << n + 1 << ". Returning vector with values read up to this point."
-             << "\n";
+        cout << "Error: File " << fileName << " is empty or first line is missing. Exiting...\n";
         return data;
     }
 
-    file.close();
+    for (int i = 0; i < n; i++)
+    {
+        if (getline(file, line))
+        {
+            try
+            {
+                data.push_back(stoi(line));
+            }
+            catch (const exception &)
+            {
+                cout << "Error: Non-integer value found in file " << fileName << " on line " << i + 2 << ". Exiting...\n";
+                return data;
+            }
+        }
+        else
+        {
+            cout << "Error: Expected more data in file " << fileName << ". Exiting...\n";
+            return data;
+        }
+    }
 
+    file.close();
     return data;
 }
 // alias for readData (to comply with the activity's instructions)
