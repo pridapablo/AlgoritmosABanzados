@@ -3,7 +3,7 @@ This program is a solution to the activity 1.1 of the course TC2038 (ITESM),
 It's an implementation of the divide and conquer algorithms for sorting an array
 of integers. There are two algorithms implemented: merge sort and quick sort.
 
-Author: Pablo Banzo Prida
+Author: Pablo Banzo Prida - A01782031
 Date: 03/09/2023
 */
 
@@ -95,7 +95,7 @@ void doMergeSort(vector<int> &arr, int lo, int hi)
 
 /*
 Clean public interface for the mergeSort algorithm (to comply with the
-activity's instructions)
+activity's instructions). The function's (worst scenario) time complexity is O(n log n).
 
 @param arr: the array to be sorted
 @return: the sorted array (in ascending order)
@@ -177,8 +177,12 @@ void doQuickSort(vector<int> &arr, int lo, int hi)
 }
 
 /*
-This function will apply the quick sort algorithm to sort an array of integers
-@param arr: the array to be sorted
+Clean public interface for the quickSort algorithm (to comply with the activity's
+instructions).
+The function's (worst scenario) time complexity is O(n*n),
+but it's O(n log n) on average (it also depends on the pivot selection)
+
+@param arr: the array to be sorted.
 
 @return: the sorted array (in ascending order)
 */
@@ -275,11 +279,11 @@ sort and the data sorted with quick sort.
 int main()
 {
     vector<int> data, sortedData;
-    data = readData("data.txt");
-    printData(data); // unsorted data
+    data = leeDatos("data.txt");
+    imprimeDatos(data); // unsorted data
     sortedData = mergeSort(data);
-    printData(sortedData); // data sorted with Merge Sort
+    imprimeDatos(sortedData); // data sorted with Merge Sort
     sortedData = quickSort(data);
-    printData(sortedData); // data sorted with Quick Sort
+    imprimeDatos(sortedData); // data sorted with Quick Sort
     return 0;
 }
