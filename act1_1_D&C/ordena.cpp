@@ -1,6 +1,5 @@
 /*
-This program is a solution to the activity 1.1 of the course TC2038 (ITESM),
-It's an implementation of the divide and conquer algorithms for sorting an array
+This program is an implementation of the divide and conquer algorithms for sorting an array
 of integers. There are two algorithms implemented: merge sort and quick sort.
 
 Author: Pablo Banzo Prida - A01782031
@@ -17,8 +16,10 @@ using namespace std;
 /*
 Helper function for mergeSort. This function will apply the merge step in place
 
-@param arr: the array to be sorted @param lo: the lower index of the array
-@param mid: the middle index of the array @param hi: the higher index of the
+@param arr: the array to be sorted
+@param lo: the lower index of the array
+@param mid: the middle index of the array
+@param hi: the higher index of the
 array
 */
 void merge(vector<int> &arr, int lo, int mid, int hi)
@@ -70,7 +71,8 @@ void merge(vector<int> &arr, int lo, int mid, int hi)
 Implementation of the merge sort algorithm, initialized based on the "mergeSort"
 call. Will sort the array in place.
 
-@param arr: the array to be sorted @param lo: the lower index of the array
+@param arr: the array to be sorted
+@param lo: the lower index of the array
 @param hi: the higher index of the array
 */
 void doMergeSort(vector<int> &arr, int lo, int hi)
@@ -94,8 +96,8 @@ void doMergeSort(vector<int> &arr, int lo, int hi)
 }
 
 /*
-Clean public interface for the mergeSort algorithm (to comply with the
-activity's instructions). The function's (worst scenario) time complexity is O(n log n).
+Public interface for the mergeSort algorithm.
+The function's (worst scenario) time complexity is O(n log n).
 
 @param arr: the array to be sorted
 @return: the sorted array (in ascending order)
@@ -177,8 +179,7 @@ void doQuickSort(vector<int> &arr, int lo, int hi)
 }
 
 /*
-Clean public interface for the quickSort algorithm (to comply with the activity's
-instructions).
+Public interface for the quickSort algorithm.
 The function's (worst scenario) time complexity is O(n*n),
 but it's O(n log n) on average (it also depends on the pivot selection)
 
@@ -197,8 +198,9 @@ vector<int> quickSort(const vector<int> &arr)
 
 // ------------------------ HELPER FUNCTIONS ------------------------
 /*
-This function will read the data from a file and store it in a vector @param
-fileName: the name of the file to be read (with the extension)
+This function will read the data from a file and store it in a vector
+
+@param fileName: the name of the file to be read (with the extension)
 
 @return: the vector with the data
 */
@@ -253,12 +255,13 @@ vector<int> readData(string fileName)
     file.close();
     return data;
 }
-// alias for readData (to comply with the activity's instructions)
+// alias for readData
 vector<int> leeDatos(string fileName) { return readData(fileName); }
 
 /*
-This function will print the data of a vector @param data: the vector to be
-printed
+This function will print the data of a vector
+
+@param data: the vector to be printed
 */
 void printData(vector<int> data)
 {
@@ -268,13 +271,13 @@ void printData(vector<int> data)
     }
     cout << endl;
 }
-// alias for printData (to comply with the activity's instructions)
+// alias for printData
 void imprimeDatos(vector<int> data) { printData(data); }
 
 /*
 This function will run the merge sort and quick sort algorithms on the data
-stored in a file. It will print the unsorted data, the data sorted with merge
-sort and the data sorted with quick sort.
+stored in a file. It will print the unsorted data and the sorted data for each
+algorithm.
 */
 int main()
 {
