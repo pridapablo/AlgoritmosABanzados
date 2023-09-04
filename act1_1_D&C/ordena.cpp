@@ -13,6 +13,7 @@ Date: 03/09/2023
 
 using namespace std;
 
+// ------------------------ MERGE SORT ------------------------
 /*
 Helper function for mergeSort. This function will apply the merge step in place
 
@@ -105,6 +106,48 @@ vector<int> mergeSort(const vector<int> &arr)
     return sortedArray;
 }
 
+// ------------------------ QUICK SORT ------------------------
+
+/*
+Helper function for quickSort. This function will apply the partition step in
+place
+
+@param arr: the array to be sorted
+@param lo: the lower index of the array
+@param hi: the higher index of the array
+*/
+int partition(vector<int> &arr, int lo, int hi)
+{
+    // // Partir en a[lo..i-1] y a[i], a[i+1..hi]
+    // int i = lo, j = hi + 1; // iniciar índices int v = a[lo]; // pivote
+    // while (true)
+    // {
+    //     // Mueve i a la derecho mientras a[i] < v
+    //     // Mueve j a la izquierda mientras a[j] > v
+    //     if (i >= j)
+    //         break; // si se cruzan, termina
+    //     // si no, intercambia los elementos a[i] y a[j]
+    // }
+    // v = a[j]; // Poner pivote en su posición return j; // con a[lo..j-1] <= a[j] <= a[j+1..hi].
+}
+
+/*
+Implementation of the quick sort algorithm, initialized based on the "quickSort"
+call. Will sort the array in place.
+
+
+*/
+void doQuickSort(vector<int> &arr, int lo, int hi)
+{
+    // if (hi <= lo)
+    //     return;
+    // int j = partition(a, lo, hi);
+    // // Ordena parte izquierda a[lo .. j-1]
+    // sort(a, lo, j - 1);
+    // // Ordena parte derecha a[j+1 .. hi]
+    // sort(a, j + 1, hi);
+}
+
 /*
 This function will apply the quick sort algorithm to sort an array of integers
 @param arr: the array to be sorted
@@ -113,6 +156,7 @@ This function will apply the quick sort algorithm to sort an array of integers
 */
 vector<int> quickSort(vector<int> &arr);
 
+// ------------------------ HELPER FUNCTIONS ------------------------
 /*
 This function will read the data from a file and store it in a vector @param
 fileName: the name of the file to be read (with the extension)
