@@ -2,6 +2,12 @@
 This program is an implementation of the divide and conquer algorithms for sorting an array
 of integers. There are two algorithms implemented: merge sort and quick sort.
 
+Expected input: a file with the following format:
+- The first line contains an integer n, which is the number of elements in the array
+- The following n lines contain the elements of the array, one per line
+
+Expected output: the unsorted array and the sorted array for each algorithm
+
 Author: Pablo Banzo Prida - A01782031
 Date: 03/09/2023
 */
@@ -14,7 +20,8 @@ using namespace std;
 
 // ------------------------ MERGE SORT ------------------------
 /*
-Helper function for mergeSort. This function will apply the merge step in place
+Helper function for mergeSort. This function will apply the merge step in place.
+Space complexity is O(n) since we need to copy the elements to auxiliar arrays.
 
 @param arr: the array to be sorted
 @param lo: the lower index of the array
@@ -24,19 +31,17 @@ array
 */
 void merge(vector<int> &arr, int lo, int mid, int hi)
 {
-    // copy vectors TODO: this is inneficient in terms of memory, but it's the
+    // TODO: this is inneficient in terms of memory, but it's the
     // easiest way to implement it. We could adjust `doMergeSort` function to
     // pass an auxiliar vector to avoid this?
 
     vector<int> left(arr.begin() + lo, arr.begin() + mid + 1);
     vector<int> right(arr.begin() + mid + 1, arr.begin() + hi + 1);
 
-    // initialize pointers
-    int i = 0;  // left
-    int j = 0;  // right
-    int k = lo; // pointer for the main arr to place merged elements
+    int i = 0;
+    int j = 0;
+    int k = lo; // main array
 
-    // merging logic
     while (i < left.size() && j < right.size())
     {
         if (left[i] <= right[j])
@@ -52,8 +57,7 @@ void merge(vector<int> &arr, int lo, int mid, int hi)
         k += 1;
     }
 
-    // copy the remaining elements
-    // (will happen if one half is longer than the other)
+    // Will copy elements when one half is longer than the other
     for (int p = i; p < left.size(); p++)
     {
         arr[k] = left[p];
@@ -85,13 +89,11 @@ void doMergeSort(vector<int> &arr, int lo, int hi)
     // prevent overflow of (hi + lo) / 2
     int mid = lo + (hi - lo) / 2;
     //    - The first half will contain the elements from arr[0] to arr[mid]
-    // call mergeSort on the first half (recursive call)
+    // recursion first half
     doMergeSort(arr, lo, mid);
     //    - The second half will contain the elements from arr[mid + 1] to arr[n - 1]
-    // call mergeSort on the second half (recursive call)
+    // recursion second half
     doMergeSort(arr, mid + 1, hi);
-
-    // merge the two halves in place
     merge(arr, lo, mid, hi);
 }
 
@@ -123,9 +125,10 @@ place
 */
 int partition(vector<int> &arr, int lo, int hi)
 {
-    int i = lo;      // left
-    int j = hi + 1;  // right
-    int v = arr[lo]; // pivot
+    int i = lo;     // left
+    int j = hi + 1; // right
+    // Decided to pivot on the leftmost element. Major pitfall if the array is already sorted and could be avoided by selecting a random pivot (or randomizing the array before sorting)
+    int v = arr[lo];
     bool pointersCrossed = false;
 
     while (!pointersCrossed)
@@ -147,12 +150,10 @@ int partition(vector<int> &arr, int lo, int hi)
 
         if (!pointersCrossed)
         {
-            // Swap the two values
             swap(arr[i], arr[j]);
         }
     }
 
-    // Swap the pivot with the appropriate value
     swap(arr[lo], arr[j]); // j is the new pivot point
     return j;              // return the new pivot point
 }
@@ -189,7 +190,7 @@ but it's O(n log n) on average (it also depends on the pivot selection)
 */
 vector<int> quickSort(const vector<int> &arr)
 {
-    // Copy the input array
+    // Decision to copy to ensure the original array is not modified
     vector<int> sortedArray = arr;
     // Call the recursive function in place setting the lower and upper bounds
     doQuickSort(sortedArray, 0, sortedArray.size() - 1);
@@ -255,7 +256,7 @@ vector<int> readData(string fileName)
     file.close();
     return data;
 }
-// alias for readData
+// alias for readData: to comply with the assignment
 vector<int> leeDatos(string fileName) { return readData(fileName); }
 
 /*
@@ -271,7 +272,7 @@ void printData(vector<int> data)
     }
     cout << endl;
 }
-// alias for printData
+// alias for printData: to comply with the assignment
 void imprimeDatos(vector<int> data) { printData(data); }
 
 /*
@@ -283,10 +284,10 @@ int main()
 {
     vector<int> data, sortedData;
     data = leeDatos("data.txt");
-    imprimeDatos(data); // unsorted data
+    imprimeDatos(data);
     sortedData = mergeSort(data);
-    imprimeDatos(sortedData); // data sorted with Merge Sort
+    imprimeDatos(sortedData);
     sortedData = quickSort(data);
-    imprimeDatos(sortedData); // data sorted with Quick Sort
+    imprimeDatos(sortedData);
     return 0;
 }
