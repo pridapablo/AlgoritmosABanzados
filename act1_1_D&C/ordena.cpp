@@ -119,33 +119,48 @@ place
 int partition(vector<int> &arr, int lo, int hi)
 {
     // // Partir en a[lo..i-1] y a[i], a[i+1..hi]
-    // int i = lo, j = hi + 1; // iniciar índices int v = a[lo]; // pivote
-    // while (true)
-    // {
-    //     // Mueve i a la derecho mientras a[i] < v
-    //     // Mueve j a la izquierda mientras a[j] > v
-    //     if (i >= j)
-    //         break; // si se cruzan, termina
-    //     // si no, intercambia los elementos a[i] y a[j]
-    // }
-    // v = a[j]; // Poner pivote en su posición return j; // con a[lo..j-1] <= a[j] <= a[j+1..hi].
+
+    // initialize pointers
+    int i = lo;      // left
+    int j = hi + 1;  // right
+    int v = arr[lo]; // pivot point
+
+    while (i >= j) // TODO: NOT SURE IF THIS IS CORRECT. IS THE BREAK WHEN THEY CROSS OR AFTER THEY CROSS >= vs >...
+    {
+        if (arr[i] < v)
+        {
+            i += 1;
+        }
+        if (arr[j] > v)
+        {
+            j -= 1;
+        }
+    }
+    // swap a[i] with a[j]
+
+    v = arr[j]; // Point to the moved pivot
+    return j;   // con a[lo..j-1] <= a[j] <= a[j+1..hi].
 }
 
 /*
 Implementation of the quick sort algorithm, initialized based on the "quickSort"
 call. Will sort the array in place.
 
-
+@param arr: the array to be sorted
+@param lo: the lower index of the array
+@param hi: the higher index of the array
 */
 void doQuickSort(vector<int> &arr, int lo, int hi)
 {
-    // if (hi <= lo)
-    //     return;
-    // int j = partition(a, lo, hi);
-    // // Ordena parte izquierda a[lo .. j-1]
-    // sort(a, lo, j - 1);
-    // // Ordena parte derecha a[j+1 .. hi]
-    // sort(a, j + 1, hi);
+    if (hi <= lo)
+    {
+        return;
+    }
+    int j = partition(arr, lo, hi);
+    //  Sort the left part
+    doQuickSort(arr, lo, j - 1);
+    // Sort the right part
+    doQuickSort(arr, j + 1, hi);
 }
 
 /*
@@ -154,7 +169,14 @@ This function will apply the quick sort algorithm to sort an array of integers
 
 @return: the sorted array (in ascending order)
 */
-vector<int> quickSort(vector<int> &arr);
+vector<int> quickSort(vector<int> &arr)
+{
+    // Copy the input array
+    vector<int> sortedArray = arr;
+    // Call the recursive function in place setting the lower and upper bounds
+    doQuickSort(sortedArray, 0, sortedArray.size() - 1);
+    return sortedArray;
+}
 
 // ------------------------ HELPER FUNCTIONS ------------------------
 /*
@@ -244,7 +266,7 @@ int main()
     printData(data); // unsorted data
     sortedData = mergeSort(data);
     printData(sortedData); // data sorted with Merge Sort
-    // sortedData = quickSort(data);
-    // printData(sortedData); // data sorted with Quick Sort
+    sortedData = quickSort(data);
+    printData(sortedData); // data sorted with Quick Sort
     return 0;
 }
