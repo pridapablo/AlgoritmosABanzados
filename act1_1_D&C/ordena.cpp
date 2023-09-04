@@ -14,19 +14,52 @@ Date: 03/09/2023
 using namespace std;
 
 /*
-Clean public interface for the mergeSort algorithm (to comply with the
-activity's instructions)
+Helper function for mergeSort. This function will apply the merge step in place
 
-@param arr: the array to be sorted
-@return: the sorted array (in ascending order)
+@param arr: the array to be sorted @param lo: the lower index of the array
+@param mid: the middle index of the array @param hi: the higher index of the
+array
 */
-vector<int> mergeSort(const vector<int> &arr)
+void merge(vector<int> &arr, int lo, int mid, int hi)
 {
-    // Copy the input array
-    vector<int> sortedArray = arr;
-    // Call the recursive function in place setting the lower and upper bounds
-    doMergeSort(sortedArray, 0, sortedArray.size() - 1);
-    return sortedArray;
+    // copy vectors
+    vector<int> left(arr.begin() + lo, arr.begin() + mid + 1);
+    vector<int> right(arr.begin() + mid + 1, arr.begin() + hi + 1);
+
+    // initialize pointers
+    int i = 0;  // left
+    int j = 0;  // right
+    int k = lo; // pointer for the main arr to place merged elements
+
+    // merging logic
+    while (i < left.size() && j < right.size())
+    {
+        if (left[i] <= right[j])
+        {
+            arr[k] = left[i];
+            i += 1;
+        }
+        else
+        {
+            arr[k] = right[j];
+            j += 1;
+        }
+        k += 1;
+    }
+
+    // copy the remaining elements
+    // (will happen if one half is longer than the other)
+    for (int p = i; p < left.size(); p++)
+    {
+        arr[k] = left[p];
+        k++;
+    }
+
+    for (int p = j; p < right.size(); p++)
+    {
+        arr[k] = right[p];
+        k++;
+    }
 }
 
 /*
@@ -57,22 +90,19 @@ void doMergeSort(vector<int> &arr, int lo, int hi)
 }
 
 /*
-Helper function for mergeSort. This function will apply the merge step in place
+Clean public interface for the mergeSort algorithm (to comply with the
+activity's instructions)
 
-@param arr: the array to be sorted @param lo: the lower index of the array
-@param mid: the middle index of the array @param hi: the higher index of the
-array
+@param arr: the array to be sorted
+@return: the sorted array (in ascending order)
 */
-void merge(vector<int> &arr, int lo, int mid, int hi)
+vector<int> mergeSort(const vector<int> &arr)
 {
-    // copy vectors
-    vector<int> left(arr.begin() + lo, arr.begin() + mid + 1);
-    vector<int> right(arr.begin() + mid + 1, arr.begin() + hi + 1);
-
-    // initialize pointers
-    int i = 0;  // left
-    int j = 0;  // right
-    int k = lo; // pointer for the main arr to place merged elements
+    // Copy the input array
+    vector<int> sortedArray = arr;
+    // Call the recursive function in place setting the lower and upper bounds
+    doMergeSort(sortedArray, 0, sortedArray.size() - 1);
+    return sortedArray;
 }
 
 /*
@@ -111,13 +141,13 @@ vector<int> readData(string fileName)
         }
         catch (const exception &)
         {
-            cout << "Error: First line of file " << fileName << " is not an integer. Exiting...\n";
+            cout << "Error: First line of file " << fileName << " is not an integer. Returning empty vector...\n";
             return data;
         }
     }
     else
     {
-        cout << "Error: File " << fileName << " is empty or first line is missing. Exiting...\n";
+        cout << "Error: File " << fileName << " is empty or first line is missing. Returning empty vector...\n";
         return data;
     }
 
@@ -131,14 +161,9 @@ vector<int> readData(string fileName)
             }
             catch (const exception &)
             {
-                cout << "Error: Non-integer value found in file " << fileName << " on line " << i + 2 << ". Exiting...\n";
+                cout << "Error: Non-integer value found in file " << fileName << " on line " << i + 2 << ". Exiting with the data read so far...\n";
                 return data;
             }
-        }
-        else
-        {
-            cout << "Error: Expected more data in file " << fileName << ". Exiting...\n";
-            return data;
         }
     }
 
@@ -173,8 +198,9 @@ int main()
     vector<int> data, sortedData;
     data = readData("data.txt");
     printData(data); // unsorted data
-    // sortedData = mergeSort(data); printData(sortedData); // data sorted with
-    // Merge Sort sortedData = quickSort(data); printData(sortedData); // data
-    // sorted with Quick Sort
+    sortedData = mergeSort(data);
+    printData(sortedData); // data sorted with Merge Sort
+    // sortedData = quickSort(data);
+    // printData(sortedData); // data sorted with Quick Sort
     return 0;
 }
