@@ -6,7 +6,6 @@
 #include <iostream>
 #include <vector>
 
-// Assuming mergeSort and quickSort are already declared elsewhere
 std::vector<int> mergeSort(const std::vector<int> &data);
 std::vector<int> quickSort(const std::vector<int> &data);
 
