@@ -1,7 +1,7 @@
 // Dynamic programming version of coin change problem.
-#ifndef DP_COINS_H_
-#define DP_COINS_H_
+#ifndef DP_CHANGE_H_
+#define DP_CHANGE_H_
 
 // NOT YET IMPLEMENTED
 
-#endif // DP_COINS_H_
+#endif // DP_CHANGE_H_
