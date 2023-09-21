@@ -1,11 +1,11 @@
 #include <iostream>
-#include <unordered_map>
+#include <map> // Could use unordered_map
 
 using namespace std;
 
-unordered_map<int, int> memo = {{0, 0}, {1, 1}};
+map<int, long long> memo = {{0, 0}, {1, 1}};
 
-int memoFib(int n)
+int fibDP(int n)
 {
     if (memo.find(n) != memo.end()) // if n is in memo
     {
@@ -13,7 +13,7 @@ int memoFib(int n)
     }
     else
     {
-        memo[n] = memoFib(n - 1) + memoFib(n - 2); // memoize the value
+        memo[n] = fibDP(n - 1) + fibDP(n - 2); // memoize the value
         return memo[n];                            // return the value
     }
 }
@@ -23,6 +23,6 @@ int main()
     int n;
     cout << "Enter n: ";
     cin >> n;
-    cout << "Fibonacci of " << n << " is " << memoFib(n + 1) << endl;
+    cout << "Fibonacci of " << n << " is " << fibDP(n + 1) << endl;
     return 0;
 }
