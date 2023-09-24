@@ -1,5 +1,6 @@
 /*
-This program solves the Coin Problem using Greedy and Dynamic Programming algorithms
+This program solves the Coin Problem using Greedy and Dynamic Programming algorithms.
+Note: recursive implementation header included but not used in this program (see recursive.hpp)
 
 Change problem
 • Find the minimum number of coins needed to form a given amount.
@@ -54,6 +55,7 @@ void escribeRespuesta(int n)
 
     vector<int> dp = minNumMonDP(n);
     printResult(dp, "Programación Dinámica");
+    
 }
 
 int main()
