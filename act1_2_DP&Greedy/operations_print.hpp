@@ -9,7 +9,7 @@
 using namespace std;
 
 /*
-    Prints the result of a vector of coins
+    Prints the result of a vector of coins (in spanish)
     @param result: the vector with the coins used to give the change ie. {25, 10, 5}
     @param method: the name of the method used to get the result ie. "Greedy"
 */
@@ -30,7 +30,12 @@ void printResult(const vector<int> &result, const string &method)
     {
         for (auto it = coinCount.begin(); it != coinCount.end(); it++)
         {
-            cout << it->second << " moneda de " << it->first << endl;
+            cout << it->second << " ";
+            if (it->second > 1)
+                cout << "monedas de ";
+            else
+                cout << "moneda de ";
+            cout << it->first << endl;
         }
     }
 }
