@@ -6,9 +6,6 @@
 
 using namespace std;
 
-vector<int> greedyChange(int change, vector<int> coinTypes)
-{
-    // IMPLEMENT
-}
+
 
 #endif // GREEDY_CHANGE_H_

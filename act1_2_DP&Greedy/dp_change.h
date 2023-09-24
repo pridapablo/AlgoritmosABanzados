@@ -3,12 +3,16 @@
 #define DP_CHANGE_H_
 
 #include <vector>
+#include <map>
 
 using namespace std;
 
-vector<int> dpChange(int change, vector<int> coinTypes)
+vector<int> dpChange(int change)
 {
-    // IMPLEMENT
+    // "denom" vector is a global variable
+    // Arreglo de pares: { numero de monedas, quién lo etiquetó (etiquetar de donde viene la solución) }
 }
+// alias for dpChange: to comply with the assignment
+vector<int> minNumMonDP(int n) { return dpChange(n); }
 
 #endif // DP_CHANGE_H_
