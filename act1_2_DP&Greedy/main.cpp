@@ -16,15 +16,14 @@ Date: 21/09/2023
 
 #include <vector>
 #include <iostream>
-#include <map> // binary search tree
 
-#include "greedy.hpp"
-#include "dp.hpp"
-#include "operations_print.hpp"
+#include "greedy.hpp"           // greedyChange (greedy algorithm)
+#include "dp.hpp"               // dpChange (dynamic programming algorithm)
+#include "operations_print.hpp" // printResult
 
 using namespace std;
 
-vector<int> denom; // Vector with the denominations of the coins
+vector<int> denom; // Global vector with the denominations of the coins
 
 /* Wrapper for greedyChange function with the denom vector as a parameter
     @param n: the amount of change to be given

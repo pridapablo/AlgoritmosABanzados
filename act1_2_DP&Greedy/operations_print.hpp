@@ -2,9 +2,9 @@
 #define OPERATIONS_PRINT_HPP
 
 #include <vector>
-#include <map>
+#include <map> // binary search tree
 #include <string>
-#include <iostream>
+#include <iostream> // cout
 
 using namespace std;
 
@@ -15,16 +15,17 @@ using namespace std;
 */
 void printResult(const vector<int> &result, const string &method)
 {
+    // map to count the coins
     map<int, int> coinCount;
     for (int i = 0; i < result.size(); i++)
     {
-        coinCount[result[i]]++;
+        coinCount[result[i]]++; // count amount of each coin
     }
 
     cout << "Usando " << method << ":\n";
     if (result.empty())
     {
-        cout << "Solución no existe\n";
+        cout << "Solución no existe\n"; // solution does not exist (method returned empty vector)
     }
     else
     {
@@ -32,9 +33,9 @@ void printResult(const vector<int> &result, const string &method)
         {
             cout << it->second << " ";
             if (it->second > 1)
-                cout << "monedas de ";
+                cout << "monedas de "; // plural
             else
-                cout << "moneda de ";
+                cout << "moneda de "; // singular
             cout << it->first << endl;
         }
     }

@@ -9,20 +9,20 @@ using namespace std;
     Dynamic Programming implementation of the coin change problem
     Bottom-up approach for space efficiency
     Time complexity: O(n * m) where n is the change and m is the number of denominations (matrix size since we need to check all combinations)
-    @param change: the amount of change to be given
+    @param qty: the amount of change to be given
     @param denom: the vector with the denominations of the coins (sorted)
 
     @return: a vector with the coins used to give the change (returns {} if solution does not exist or is incorrect)
 */
 vector<int> dpChange(int qty, vector<int> denom)
 {
+    const int IMPOSSIBLE = qty + 1; // impossible value for change since max change is change
+    int initQty = qty;              // save initial qty to check if solution is correct
 
-    int initQty = qty; // save initial qty to check if solution is correct
-    // Pair vector { no. coins, who tagged it }
-    // initialize all values to change + 1 (impossible value for change since max change is change)
-    vector<pair<int, int>> matrix(qty + 1, {qty + 1, -1});
+    // initialize all values to impossible
+    vector<pair<int, int>> matrix(IMPOSSIBLE, {IMPOSSIBLE, -1}); // {no. coins, who tagged it}
 
-    matrix[0] = {0, -1}; // base case: 0 coins to make 0 change (tag -1 since no coin was used)
+    matrix[0] = {0, -1}; // base case: 0 coins tag -1 (no coin)
 
     for (int i = 0; i < denom.size(); i++)
     {
@@ -42,7 +42,7 @@ vector<int> dpChange(int qty, vector<int> denom)
     }
 
     // If change is not possible
-    if (matrix[qty].first == qty + 1)
+    if (matrix[qty].first == IMPOSSIBLE)
     {
         return {}; // Solution not possible since value is unattainable (change + 1)
     }
