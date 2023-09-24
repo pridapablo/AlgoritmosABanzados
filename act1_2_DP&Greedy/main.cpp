@@ -99,6 +99,8 @@ vector<int> dpChange(int change)
     // denoms is a global variable (vector) with the denominations of the coins
     // Bottom-up approach (iterative) for memory efficiency
     // Pair vector { no. coins, who tagged it }
+    // size of matrix is change + 1, since we need to include 0
+    // initialize all values to change + 1 (impossible value for change since max change is change)
     vector<pair<int, int>> matrix(change + 1, {change + 1, -1});
 
     matrix[0] = {0, -1}; // base case: 0 coins to make 0 change (tag -1 since no coin was used)
@@ -123,7 +125,7 @@ vector<int> dpChange(int change)
     // If change is not possible
     if (matrix[change].first == change + 1)
     {
-        return {0};
+        return {0}; // Solution not possible since value is unattainable (change + 1)
     }
     else
     {
@@ -135,6 +137,17 @@ vector<int> dpChange(int change)
             int coin = denom[matrix[i].second];
             coinsUsed.push_back(coin);
             i -= coin;
+        }
+
+        // check if solution is correct
+        int sum = 0;
+        for (int i = 0; i < coinsUsed.size(); i++)
+        {
+            sum += coinsUsed[i];
+        }
+        if (sum != change)
+        {
+            return {0}; // Solution is incorrect, so it does not exist (with this algorithm)
         }
         return coinsUsed;
     }
