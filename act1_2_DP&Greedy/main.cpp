@@ -43,8 +43,7 @@ Date: 21/09/2023
 
 #include <vector>
 #include <iostream>
-#include "dp_change.h"
-#include "greedy_change.h"
+#include <map>
 
 using namespace std;
 
@@ -56,9 +55,7 @@ vector<int> greedyChange(int qty)
     // "denom" vector is a global variable
     while (qty > 0)
     {
-
         int coin;
-
         // find the largest coin that is less than qty
         bool found = false;
         int i = denom.size() - 1;
@@ -68,6 +65,7 @@ vector<int> greedyChange(int qty)
             if (denom[i] <= qty)
             {
                 coin = denom[i];
+                change.push_back(coin);
                 found = true;
             }
             else
@@ -75,16 +73,27 @@ vector<int> greedyChange(int qty)
                 i--;
             }
         }
-
-        change.push_back(coin);
-
         // decrese qty since we've provided a coin
         qty -= coin;
     }
+
     return change;
 }
 // alias for greedyChange: to comply with the assignment
 vector<int> minNumMonGR(int n) { return greedyChange(n); }
+
+vector<int> dpChange(int change)
+{
+    // "denom" vector is a global variable
+    // Arreglo de pares: { numero de monedas, quién lo etiquetó (etiquetar de donde viene la solución) }
+}
+// alias for dpChange: to comply with the assignment
+vector<int> minNumMonDP(int n) { return dpChange(n); }
+
+vector<int> recursiveChange(int change, vector<int> coinTypes)
+{
+    // Arreglo de pares: { numero de monedas, quién lo etiquetó (etiquetar de donde viene la solución) }
+}
 
 void escribeRespuesta(int n)
 {
@@ -94,10 +103,17 @@ void escribeRespuesta(int n)
     vector<int> greedy = minNumMonGR(n);
     // vector<int> dp = minNumMonDP(n);
 
-    cout << "Usando Greedy:" << endl;
+    // use a map to store the number of coins of each type
+    map<int, int> coinCount;
     for (int i = 0; i < greedy.size(); i++)
     {
-        cout << greedy[i] << " moneda de " << denom[i] << endl;
+        coinCount[greedy[i]]++;
+    }
+
+    cout << "Usando Greedy:" << endl;
+    for (auto it = coinCount.begin(); it != coinCount.end(); it++)
+    {
+        cout << it->second << " moneda de " << it->first << endl;
     }
 
     // cout << "Usando Programación Dinámica:" << endl;
@@ -111,26 +127,29 @@ int main()
 {
     int N, C, P, Q;
 
-    cout << "Ingrese el numero de denominaciones de monedas: ";
-    cin >> N;
+    // cout << "Ingrese el numero de denominaciones de monedas: ";
+    // cin >> N;
 
-    vector<int> denom(N); // Init denom vector with N coins
+    // vector<int> denom(N); // Init denom vector with N coins
 
-    for (int i = 0; i < N; i++)
-    {
-        cout << "Ingrese la denominacion de la moneda " << i + 1 << ": ";
-        cin >> denom[i];
-    }
+    // for (int i = 0; i < N; i++)
+    // {
+    //     cout << "Ingrese la denominacion de la moneda " << i + 1 << ": ";
+    //     cin >> denom[i];
+    // }
 
-    cout << "Ingrese el precio del producto: ";
-    cin >> P;
+    // cout << "Ingrese el precio del producto: ";
+    // cin >> P;
 
-    cout << "Ingrese la moneda con la que se pagó el producto: ";
-    cin >> Q;
+    // cout << "Ingrese la moneda con la que se pagó el producto: ";
+    // cin >> Q;
 
-    int change = Q - P;
+    // int change = Q - P;
 
-    cout << "Se ha determinado que el cambio necesario es: " << change << "\n";
+    // cout << "Se ha determinado que el cambio necesario es: " << change << "\n";
+
+    int change = 40;
+    denom = {1, 5, 10, 20, 25, 50};
 
     escribeRespuesta(change);
 }
