@@ -98,6 +98,7 @@ vector<int> dpChange(int change)
 {
     // denoms is a global variable (vector) with the denominations of the coins
     // Bottom-up approach (iterative) for memory efficiency
+    // Pair vector { no. coins, who tagged it }
     vector<pair<int, int>> matrix(change + 1, {change + 1, -1});
 
     matrix[0] = {0, -1}; // base case: 0 coins to make 0 change (tag -1 since no coin was used)
@@ -149,7 +150,6 @@ void escribeRespuesta(int n)
     vector<int> zero = {0}; // this will be returned when the solution does not exist
 
     vector<int> greedy = minNumMonGR(n);
-
     if (greedy == zero)
         cout << "Usando Greedy: Solución no existe\n";
     else
@@ -170,10 +170,23 @@ void escribeRespuesta(int n)
     }
 
     vector<int> dp = minNumMonDP(n);
-    cout << "Usando Programación Dinámica:" << endl;
-    for (int i = 0; i < dp.size(); i++)
+    if (dp == zero)
+        cout << "Usando Programación Dinámica: Solución no existe\n";
+    else
     {
-        cout << dp[i] << " moneda de " << denom[i] << endl;
+        // use a map to store the number of coins of each type
+        map<int, int>
+            coinCount;
+        for (int i = 0; i < dp.size(); i++)
+        {
+            coinCount[dp[i]]++;
+        }
+
+        cout << "Usando Programación Dinámica:" << endl;
+        for (auto it = coinCount.begin(); it != coinCount.end(); it++)
+        {
+            cout << it->second << " moneda de " << it->first << endl;
+        }
     }
 }
 
