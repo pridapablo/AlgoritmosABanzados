@@ -117,7 +117,7 @@ bool backtracking(int x, int y)
 
   else if (x < 0 || x >= M || y < 0 || y >= N) // Out of bounds
     return false;
-  else if (maze[x][y] == 0) // Traversable cell
+  else if (maze[x][y] == 0) // Non-traversable cell
     return false;
 
   else
@@ -231,7 +231,10 @@ void imprimeSolucion() { printSolutions(); }
 
 int main()
 {
-  leeArchivo("maze.txt");
+  const vector<string> tests = {"test1-example.txt", "test2-no-solution.txt", "test3-multiple-solutions.txt", "test4-single-cell.txt", "test5-large-maze.txt", "test6-all-walls.txt", "test7-all-traversable.txt"};
+
+  leeArchivo(tests[0]);
   imprimeSolucion();
+
   return 0;
 }
