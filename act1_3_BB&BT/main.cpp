@@ -122,36 +122,24 @@ void leeArchivo(string fileName) { readFile(fileName); }
 */
 bool backtracking(int x, int y)
 {
+  if (x < 0 || x >= M || y < 0 || y >= N) // Out of bounds
+    return false;
+  if (maze[x][y] == 0 || btsolution[x][y]) // Non-traversable cell or already visited
+    return false;
+
+  // Mark as part of solution path
+  btsolution[x][y] = true;
+
   if (x == M - 1 && y == N - 1) // Goal
-  {
-    btsolution[x][y] = true;
     return true;
-  }
 
-  else if (x < 0 || x >= M || y < 0 || y >= N) // Out of bounds
-    return false;
-  else if (maze[x][y] == 0) // Non-traversable cell
-    return false;
+  // Move in all possible directions
+  if (backtracking(x + 1, y) || backtracking(x, y + 1) || backtracking(x - 1, y) || backtracking(x, y - 1))
+    return true;
 
-  else
-  {
-    btsolution[x][y] = true; // Part of solution
-    // Recursive calls to solve maze moving in all four directions
+  // Backtrack
+  btsolution[x][y] = false;
 
-    if (backtracking(x + 1, y))
-      return true;
-
-    if (backtracking(x, y + 1))
-      return true;
-
-    if (backtracking(x - 1, y))
-      return true;
-
-    if (backtracking(x, y - 1))
-      return true;
-  }
-
-  btsolution[x][y] = false; // Backtrack and try another solution
   return false;
 }
 
@@ -246,7 +234,8 @@ int main()
 {
   const vector<string> tests = {"test0-example.txt", "test1-no-solution.txt", "test2-multiple-solutions.txt", "test3-single-cell.txt", "test4-all-walls", "test5-all-traversable.txt", "test6-20x30-maze.txt", "test7-660x50-maze.txt", "test8-100x100-maze.txt", "test9-30x20-maze.txt"};
 
-  leeArchivo(tests[6]);
+  // leeArchivo(tests[6]);
+  leeArchivo("test.txt");
   imprimeSolucion();
 
   return 0;

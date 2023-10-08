@@ -16,10 +16,10 @@ def generate_maze(n, m):
             maze[i][j] = str(random.choice([0, 1]))
 
     # Write maze to file
-    with open(f"test{n}x{m}-maze.txt", "w") as f:
+    with open(f"test.txt", "w") as f:
         f.write(f"{n} {m}\n")
         for row in maze:
             f.write(" ".join(row) + "\n")
 
-# Generate a 100 x 100 maze
-generate_maze(30,20);
+# Generate a maze
+generate_maze(5,6);
