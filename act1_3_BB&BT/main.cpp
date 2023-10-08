@@ -47,7 +47,7 @@ void readFile(string fileName)
 
   string line;
 
-  if (getline(file, line))
+  if (getline(file, line)) // First line has maze dimensions
   {
     stringstream ss(line);
     if (!(ss >> M >> N))
@@ -100,38 +100,38 @@ void leeArchivo(string fileName) { return readFile(fileName); }
 /*
   Backtracking algorithm to solve maze.
 
+  @param x: abscissa of current position in maze.
+  @param y: ordinate of current position in maze.
+
   @return: True if a solution is found, false otherwise to backtrack and try another solution.
 */
-bool backtracking(int x, int y) // Current position in maze
+bool backtracking(int x, int y)
 {
-  if (x == M - 1 && y == N - 1) // Check if current position is the goal
+  if (x == M - 1 && y == N - 1) // Goal
   {
     btsolution[x][y] = true;
     return true;
   }
 
-  else if (x < 0 || x >= M || y < 0 || y >= N) // Check if current position is out of bounds
+  else if (x < 0 || x >= M || y < 0 || y >= N) // Out of bounds
     return false;
-  else if (maze[x][y] == 0) // Check if current position is valid in the initial maze
+  else if (maze[x][y] == 0) // Traversable cell
     return false;
 
   else
   {
     btsolution[x][y] = true;
-    // Recursive calls to solve maze
-    // Right
+    // Recursive calls to solve maze moving in all four directions
+
     if (backtracking(x + 1, y))
       return true;
 
-    // Down
     if (backtracking(x, y + 1))
       return true;
 
-    // Left
     if (backtracking(x - 1, y))
       return true;
 
-    // Up
     if (backtracking(x, y - 1))
       return true;
   }
@@ -146,7 +146,7 @@ bool backtracking(int x, int y) // Current position in maze
  */
 void printSolutions()
 {
-  if (backtracking(0, 0))
+  if (backtracking(0, 0)) // Start at (0, 0) to find solution
   {
     cout << "Backtracking solution:\n";
     for (auto row : btsolution)
