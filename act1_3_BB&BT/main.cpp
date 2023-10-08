@@ -145,21 +145,10 @@ bool backtracking(int x, int y)
 
 int branchAndBound(int x, int y, int steps, vector<vector<bool>> &currentPath)
 {
-  if (x == M - 1 && y == N - 1) // Goal
-  {
-    currentPath[x][y] = true; // Part of solution
-    if (steps < bbminSteps)   // Update minimum number of steps to reach goal
-    {
-      bbminSteps = steps;
-      bbsolution = currentPath; // Current path is the best solution so far
-    }
-    return steps;
-  }
-
   if (x < 0 || x >= M || y < 0 || y >= N) // Out of bounds
     return INT_MAX;
 
-  if (maze[x][y] == 0) // Not traversable
+  if (maze[x][y] == 0 || currentPath[x][y]) // Not traversable or already visited
     return INT_MAX;
 
   if (steps >= bbminSteps) // Step prune
@@ -171,6 +160,17 @@ int branchAndBound(int x, int y, int steps, vector<vector<bool>> &currentPath)
     return INT_MAX;
 
   currentPath[x][y] = true; // Add current cell to path
+
+  if (x == M - 1 && y == N - 1) // Goal
+  {
+    if (steps < bbminSteps) // Update minimum number of steps to reach goal
+    {
+      bbminSteps = steps;
+      bbsolution = currentPath; // Current path is the best solution so far
+    }
+    currentPath[x][y] = false;
+    return steps;
+  }
 
   // Try all 4 directions
   int down = branchAndBound(x + 1, y, steps + 1, currentPath);
