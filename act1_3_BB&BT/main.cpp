@@ -62,6 +62,17 @@ void readFile(string fileName)
     btsolution.resize(M, vector<bool>(N));
     bbsolution.resize(M, vector<bool>(N));
     cout << "Maze dimensions: " << M << " x " << N << "\n";
+
+    // initialize vectors with false values
+    for (int i = 0; i < M; i++)
+    {
+      for (int j = 0; j < N; j++)
+      {
+        maze[i][j] = false;
+        btsolution[i][j] = false;
+        bbsolution[i][j] = false;
+      }
+    }
   }
   else
   {
@@ -93,6 +104,8 @@ void readFile(string fileName)
       return;
     }
   }
+
+  cout << "Maze matrix read successfully.\n";
 
   file.close();
 }
@@ -231,9 +244,9 @@ void imprimeSolucion() { printSolutions(); }
 
 int main()
 {
-  const vector<string> tests = {"test1-example.txt", "test2-no-solution.txt", "test3-multiple-solutions.txt", "test4-single-cell.txt", "test5-large-maze.txt", "test6-all-walls.txt", "test7-all-traversable.txt"};
+  const vector<string> tests = {"test0-example.txt", "test1-no-solution.txt", "test2-multiple-solutions.txt", "test3-single-cell.txt", "test4-all-walls", "test5-all-traversable.txt", "test6-20x30-maze.txt", "test7-660x50-maze.txt", "test8-100x100-maze.txt", "test9-30x20-maze.txt"};
 
-  leeArchivo(tests[0]);
+  leeArchivo(tests[6]);
   imprimeSolucion();
 
   return 0;
