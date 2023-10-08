@@ -20,14 +20,16 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <climits>
 
 using namespace std;
 
 // Global variables
 int M, N;
-vector<vector<bool>> maze;
-vector<vector<bool>> btsolution;
-vector<vector<bool>> bbsolution;
+vector<vector<bool>> maze;       // Maze matrix
+vector<vector<bool>> btsolution; // Solution found by backtracking algorithm
+vector<vector<bool>> bbsolution; // Solution found by branch-and-bound algorithm
+int bbminSteps = INT_MAX;        // Minimum number of steps to reach goal in branch-and-bound algorithm
 
 /*
   Reads input file and stores data in global variables.
@@ -95,7 +97,7 @@ void readFile(string fileName)
   file.close();
 }
 // Alias for readFile() to comply with the assignment requirements
-void leeArchivo(string fileName) { return readFile(fileName); }
+void leeArchivo(string fileName) { readFile(fileName); }
 
 /*
   Backtracking algorithm to solve maze.
@@ -120,7 +122,7 @@ bool backtracking(int x, int y)
 
   else
   {
-    btsolution[x][y] = true;
+    btsolution[x][y] = true; // Part of solution
     // Recursive calls to solve maze moving in all four directions
 
     if (backtracking(x + 1, y))
@@ -136,8 +138,49 @@ bool backtracking(int x, int y)
       return true;
   }
 
-  btsolution[x][y] = false;
+  btsolution[x][y] = false; // Backtrack and try another solution
   return false;
+}
+
+int branchAndBound(int x, int y, int steps, vector<vector<bool>> &currentPath)
+{
+  if (x == M - 1 && y == N - 1) // Goal
+  {
+    currentPath[x][y] = true; // Part of solution
+    if (steps < bbminSteps)   // Update minimum number of steps to reach goal
+    {
+      bbminSteps = steps;
+      bbsolution = currentPath; // Current path is the best solution so far
+    }
+    return steps;
+  }
+
+  if (x < 0 || x >= M || y < 0 || y >= N) // Out of bounds
+    return INT_MAX;
+
+  if (maze[x][y] == 0) // Not traversable
+    return INT_MAX;
+
+  if (steps >= bbminSteps) // Step prune
+    return INT_MAX;
+
+  int manhattanDistance = abs(M - 1 - x) + abs(N - 1 - y); // Manhattan distance to goal (relaxation)
+
+  if (steps + manhattanDistance >= bbminSteps) // Relaxation prune
+    return INT_MAX;
+
+  currentPath[x][y] = true; // Add current cell to path
+
+  // Try all 4 directions
+  int down = branchAndBound(x + 1, y, steps + 1, currentPath);
+  int right = branchAndBound(x, y + 1, steps + 1, currentPath);
+  int up = branchAndBound(x - 1, y, steps + 1, currentPath);
+  int left = branchAndBound(x, y - 1, steps + 1, currentPath);
+
+  currentPath[x][y] = false; // Remove current cell from path
+
+  // Return the minimum steps needed among all directions
+  return min(min(down, right), min(up, left));
 }
 
 /*
@@ -163,23 +206,28 @@ void printSolutions()
     cout << "No solution found using backtracking.\n";
   }
 
-  cout << "Branch-and-bound solution:\n";
-  for (auto row : bbsolution)
+  vector<vector<bool>> currentPath(M, vector<bool>(N, false));
+  int steps = branchAndBound(0, 0, 0, currentPath);
+
+  if (steps != INT_MAX)
   {
-    for (auto cell : row)
+    cout << "Branch-and-Bound solution found in " << steps << " steps: " << endl;
+    for (auto row : bbsolution)
     {
-      cout << (cell ? '1' : '0') << " ";
+      for (auto cell : row)
+      {
+        cout << (cell ? '1' : '0') << " ";
+      }
+      cout << "\n";
     }
-    cout << "\n";
+  }
+  else
+  {
+    cout << "No solution found using Branch-and-Bound.\n";
   }
 }
 // Alias for printSolutions() to comply with the assignment requirements
-void imprimeSolucion() { return printSolutions(); }
-
-void branchAndBound()
-{
-  return;
-}
+void imprimeSolucion() { printSolutions(); }
 
 int main()
 {
