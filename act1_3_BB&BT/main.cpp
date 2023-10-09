@@ -114,6 +114,8 @@ void leeArchivo(string fileName) { readFile(fileName); }
 
 /*
   Backtracking algorithm to solve maze.
+  O(c^(M×N)) time complexity (where c is the branching factor, implemented as 4)
+  M is maze height and N is maze width.
 
   @param x: abscissa of current position in maze.
   @param y: ordinate of current position in maze.
@@ -143,6 +145,18 @@ bool backtracking(int x, int y)
   return false;
 }
 
+/*
+  Branch-and-Bound algorithm to solve maze.
+  O(c^(M×N)) time complexity (where c is the branching factor, implemented as 4)
+  M is maze height and N is maze width.
+
+  @param x: abscissa of current position in maze.
+  @param y: ordinate of current position in maze.
+  @param steps: Number of steps taken so far.
+  @param currentPath: Current path taken to reach current cell (memory address)
+
+  @return: Minimum number of steps needed to reach goal.
+*/
 int branchAndBound(int x, int y, int steps, vector<vector<bool>> &currentPath)
 {
   if (x < 0 || x >= M || y < 0 || y >= N) // Out of bounds
@@ -232,10 +246,9 @@ void imprimeSolucion() { printSolutions(); }
 
 int main()
 {
-  const vector<string> tests = {"test0-example.txt", "test1-no-solution.txt", "test2-multiple-solutions.txt", "test3-single-cell.txt", "test4-all-walls", "test5-all-traversable.txt", "test6-20x30-maze.txt", "test7-660x50-maze.txt", "test8-100x100-maze.txt", "test9-30x20-maze.txt"};
+  const vector<string> tests = {"test0-example.txt", "test1-no-solution.txt", "test2-single-cell.txt", "test3-all-walls.txt", "test4-all-traversable.txt", "test5-20x30-maze.txt", "test6-50x50-maze.txt", "test7-100x100-maze.txt", "test8-30x20-maze.txt"};
 
-  // leeArchivo(tests[6]);
-  leeArchivo("test.txt");
+  leeArchivo(tests[0]);
   imprimeSolucion();
 
   return 0;
