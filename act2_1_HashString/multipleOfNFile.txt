@@ -1,0 +1,1 @@
+This sentence has exactly 32 chars!

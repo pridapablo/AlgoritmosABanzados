@@ -129,8 +129,37 @@ string hashString(string content, int n)
     return hash;
 }
 
+void runTestCases()
+{
+    vector<pair<string, int>> testCases = {
+        {"emptyFile.txt", 16},
+        {"smallFile.txt", 16},
+        {"bigFile.txt", 64},
+        {"multipleOfNFile.txt", 32}};
+
+    for (auto &testCase : testCases)
+    {
+        string content = readFiles(testCase.first);
+        if (content.empty())
+        {
+            cout << "Error reading test file: " << testCase.first << endl;
+            continue;
+        }
+
+        if (!validateN(testCase.second))
+        {
+            cout << "Invalid n in test case: " << testCase.second << endl;
+            continue;
+        }
+
+        string hash = hashString(content, testCase.second);
+        cout << "Hash for file " << testCase.first << " with n = " << testCase.second << " is: " << hash << endl;
+    }
+}
+
 int main()
 {
+    runTestCases();
     string fileName;
     int n;
     bool isFileRead = false; // flag to check if file has been successfully read
