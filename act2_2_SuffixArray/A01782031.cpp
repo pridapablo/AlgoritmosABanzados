@@ -35,7 +35,7 @@ Time complexity: O(n) where n is the length of longest of the two input suffixes
 */
 bool compare(const Suffix &a, const Suffix &b)
 {
-    return a.suffix < b.suffix;
+    return a.suffix < b.suffix; // Compare the suffixes as strings.
 }
 
 /*
