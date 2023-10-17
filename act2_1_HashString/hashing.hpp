@@ -20,13 +20,15 @@ string toHex(int n)
     while (n)
     {
         int temp = n % 16;
+
+        // ASCII values of '0' to '9' are 48 to 57
         if (temp < 10)
-            hex += temp + 48;
+            hex += temp + 48; // '0'
         else
-            hex += temp + 55;
-        n /= 16;
+            hex += temp + 55; // 'A'
+        n /= 16;              // next digit
     }
-    while (hex.length() < 2) // Ensure it's two characters
+    while (hex.length() < 2) // two characters always
     {
         hex = "0" + hex;
     }
@@ -50,11 +52,11 @@ string hashString(string content, int n)
     // Fill the ascii table
     for (char ch : content)
     {
-        asciiTable[asciiColIndex] += ch;
-        asciiColIndex = (asciiColIndex + 1) % n;
+        asciiTable[asciiColIndex] += ch;         // add ascii value of the character to the current column
+        asciiColIndex = (asciiColIndex + 1) % n; // move to the next column
     }
 
-    // fill the last row with the value of n
+    // fill the last row with the value of n (if needed)
     while (asciiColIndex != 0)
     {
         asciiTable[asciiColIndex] += n;
@@ -68,10 +70,10 @@ string hashString(string content, int n)
     }
 
     // Generate the hash string
-    for (int i = 0; i < n; i += 4) // Looping every 4 columns to generate n/4 hex characters
+    for (int i = 0; i < n; i += 4) // Looping every column to generate 2n hex characters
     {
-        string hexValue = toHex(asciiTable[i]); // No need to sum across columns, just mod 256
-        hash += hexValue;
+        string hexValue = toHex(asciiTable[i]);
+        hash += hexValue; // add the hex value of the current column to the hash string
     }
 
     return hash;

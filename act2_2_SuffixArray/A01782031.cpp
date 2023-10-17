@@ -40,7 +40,7 @@ vector<Suffix> suffixArray(const string &s)
     for (int i = 0; i < n; i++)
     {
         string suffix = s.substr(i);
-        suffixes.push_back(Suffix(i, suffix));
+        suffixes.push_back(Suffix(i, suffix)); 
     }
     return suffixes;
 }
