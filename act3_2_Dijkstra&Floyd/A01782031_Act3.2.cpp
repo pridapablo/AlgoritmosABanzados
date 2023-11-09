@@ -46,6 +46,7 @@ int main()
       "__tests__/negative_weights.txt",
       "__tests__/no_edges.txt",
       "__tests__/parallel_edges.txt",
+      "__tests__/self_loops_zero.txt",
       "__tests__/self_loops.txt",
       "__tests__/single_edge.txt",
       "__tests__/zero_weight_cycle.txt"};
