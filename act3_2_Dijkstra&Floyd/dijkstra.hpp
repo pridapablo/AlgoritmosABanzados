@@ -51,7 +51,7 @@ vector<int> dijkstra(const Graph &graph, int init)
         int a = mh.top().first; // Current node is smallest in the heap (root)
         mh.pop();
 
-        if (!visited[a]) // If the current node has not been visited
+        if (!visited[a])
         {
             // Check all neighbors of the current node 'a'
             for (const auto &neighbor : graph.adj_list[a])
@@ -67,7 +67,7 @@ vector<int> dijkstra(const Graph &graph, int init)
                     mh.push({v, d[v]});
                 }
             }
-            visited[a] = true; // Mark the current node as visited
+            visited[a] = true;
         }
     }
     return d;
@@ -76,6 +76,9 @@ vector<int> dijkstra(const Graph &graph, int init)
 /*
     Computes the shortest path distances from each node to every other node
     in the graph using Dijkstra's algorithm.
+
+    Results in O(n^2 log n) time complexity, since we run Dijkstra's algorithm
+    n times, where n is the number of nodes in the graph.
 
     @param graph: the graph to run the algorithm on
     @return: a 2D vector where the element at [i][j] represents the shortest

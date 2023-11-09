@@ -29,13 +29,13 @@ vector<vector<int>> floyd_warshall(const Graph &graph)
         {
             for (int j = 0; j < n; j++) // matrix column
             {
-                if (resulting_matrix[i][k] == INT_MAX || resulting_matrix[k][j] == INT_MAX)
-                    continue; // Skip if path through k is not possible
-
-                int indirect_weight = resulting_matrix[i][k] + resulting_matrix[k][j];
-                if (indirect_weight < resulting_matrix[i][j])
+                if (!(resulting_matrix[i][k] == INT_MAX || resulting_matrix[k][j] == INT_MAX))
                 {
-                    resulting_matrix[i][j] = indirect_weight;
+                    int indirect_weight = resulting_matrix[i][k] + resulting_matrix[k][j];
+                    if (indirect_weight < resulting_matrix[i][j])
+                    {
+                        resulting_matrix[i][j] = indirect_weight;
+                    }
                 }
             }
         }

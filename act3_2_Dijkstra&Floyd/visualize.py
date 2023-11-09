@@ -14,7 +14,7 @@ if not os.path.exists(visualizations_dir):
 def create_graph_from_file(file_path):
     G = nx.DiGraph()
     with open(file_path, 'r') as file:
-        nodes, edges = map(int, file.readline().split())
+        nodes, _ = map(int, file.readline().split())
         G.add_nodes_from(range(1, nodes + 1))
         for line in file:
             start, end, weight = map(int, line.split())

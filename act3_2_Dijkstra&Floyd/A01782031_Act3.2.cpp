@@ -1,4 +1,7 @@
 /*
+By: Pablo Banzo Prida
+    A01782031
+    9/Nov/2023
 This program solves the "shortest path" problem using two different algorithms:
 1. Dijkstra's algorithm
 2. Floyd-Warshall algorithm
@@ -62,10 +65,10 @@ int main()
     {
       graph = read_graph(file_name);
     }
-    catch (const std::exception &e)
+    catch (const exception &e)
     {
       cerr << "An error occurred while reading the file: " << e.what() << endl;
-      read_success = false; // Reading failed
+      read_success = false; // Reading failed (to avoid "continue")
     }
 
     if (read_success)
@@ -76,7 +79,7 @@ int main()
         auto all_distances = dijkstra_all(graph);
         print_dijkstra_all(all_distances);
       }
-      catch (const std::exception &e)
+      catch (const exception &e)
       {
         cerr << "An error occurred while running Dijkstra's algorithm: " << e.what() << endl;
       }
