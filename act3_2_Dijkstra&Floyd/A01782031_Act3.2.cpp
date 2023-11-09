@@ -41,7 +41,7 @@ using namespace std;
 
 int main()
 {
-  vector<string> test_files = {
+  vector<string> testFiles = {
       "__tests__/a_hw_input.txt",
       "__tests__/complete_graph.txt",
       "__tests__/int_max.txt",
@@ -54,30 +54,30 @@ int main()
       "__tests__/single_edge.txt",
       "__tests__/zero_weight_cycle.txt"};
 
-  for (const auto &file_name : test_files)
+  for (const auto &fileName : testFiles)
   {
-    cout << "Processing " << file_name << "...\n";
+    cout << "Processing " << fileName << "...\n";
     Graph graph;
-    bool read_success = true;
+    bool readSuccess = true;
 
     // Attempt to read the graph
     try
     {
-      graph = read_graph(file_name);
+      graph = read_graph(fileName);
     }
     catch (const exception &e)
     {
       cerr << "An error occurred while reading the file: " << e.what() << endl;
-      read_success = false; // Reading failed (to avoid "continue")
+      readSuccess = false; // Reading failed (to avoid "continue")
     }
 
-    if (read_success)
+    if (readSuccess)
     {
       // Attempt to run Dijkstra's algorithm
       try
       {
-        auto all_distances = dijkstra_all(graph);
-        print_dijkstra_all(all_distances);
+        auto all_distances = dijkstraAll(graph);
+        printDijkstraAll(all_distances);
       }
       catch (const exception &e)
       {
@@ -85,13 +85,13 @@ int main()
       }
     }
 
-    if (read_success)
+    if (readSuccess)
     {
       // Attempt to run Floyd-Warshall algorithm
       try
       {
-        auto resulting_matrix = floyd_warshall(graph);
-        print_floyd_warshall(resulting_matrix);
+        auto resultingMatrix = floydWarshall(graph);
+        printFloydWarshall(resultingMatrix);
       }
       catch (const std::exception &e)
       {

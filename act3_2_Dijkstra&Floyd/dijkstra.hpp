@@ -60,8 +60,8 @@ vector<int> dijkstra(const Graph &graph, int init)
                 int weight = neighbor.second; // Weight of the edge to the neighbor
 
                 // If the neighbor node hasn't been visited and the new distance is shorter, update it
-                int greedy_distance = d[a] + weight;
-                if (d[v] > greedy_distance)
+                int greedyDistance = d[a] + weight;
+                if (d[v] > greedyDistance)
                 {
                     d[v] = d[a] + weight;
                     mh.push({v, d[v]});
@@ -84,37 +84,37 @@ vector<int> dijkstra(const Graph &graph, int init)
     @return: a 2D vector where the element at [i][j] represents the shortest
              distance from node i to node j
 */
-vector<vector<int>> dijkstra_all(const Graph &graph)
+vector<vector<int>> dijkstraAll(const Graph &graph)
 {
     const int n = graph.adj_list.size();
-    vector<vector<int>> all_distances(n, vector<int>(n, INT_MAX)); // 2D vector to store distances
+    vector<vector<int>> allDistances(n, vector<int>(n, INT_MAX)); // 2D vector to store distances
 
     // Run Dijkstra's algorithm for each node as the start node
     for (int init = 0; init < n; ++init)
     {
-        all_distances[init] = dijkstra(graph, init);
+        allDistances[init] = dijkstra(graph, init);
     }
 
-    return all_distances;
+    return allDistances;
 }
 
 /*
     Prints the shortest path distances between each pair of nodes as calculated
     by Dijkstra's algorithm.
 
-    @param all_distances: a 2D vector containing the shortest distances between
-                          all pairs of nodes, as returned by dijkstra_all()
+    @param allDistances: a 2D vector containing the shortest distances between
+                          all pairs of nodes, as returned by dijkstraAll()
 */
-void print_dijkstra_all(const vector<vector<int>> &all_distances)
+void printDijkstraAll(const vector<vector<int>> &allDistances)
 {
     cout << "\nDijkstra:\n";
-    for (int i = 0; i < all_distances.size(); ++i)
+    for (int i = 0; i < allDistances.size(); ++i)
     {
-        for (int j = 0; j < all_distances[i].size(); ++j)
+        for (int j = 0; j < allDistances[i].size(); ++j)
         {
             if (i != j)
             { // Avoid printing distance from a node to itself
-                if (all_distances[i][j] == INT_MAX)
+                if (allDistances[i][j] == INT_MAX)
                 {
                     cout << "node " << i + 1 << " to node " << j + 1 << " : "
                          << "∞\n";
@@ -122,7 +122,7 @@ void print_dijkstra_all(const vector<vector<int>> &all_distances)
                 else
                 {
 
-                    cout << "node " << i + 1 << " to node " << j + 1 << " : " << all_distances[i][j] << "\n";
+                    cout << "node " << i + 1 << " to node " << j + 1 << " : " << allDistances[i][j] << "\n";
                 }
             }
         }
