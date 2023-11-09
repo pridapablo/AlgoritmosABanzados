@@ -28,6 +28,17 @@ vector<int> dijkstra(const Graph &graph, int init)
     {
         throw out_of_range("Start node is out of the range of the graph nodes.");
     }
+    // No negative weights allowed
+    for (const auto &edges : graph.adj_list)
+    {
+        for (const auto &edge : edges)
+        {
+            if (edge.second < 0)
+            {
+                throw invalid_argument("Graph contains negative edge weight, which is not allowed for Dijkstra's algorithm.");
+            }
+        }
+    }
     vector<int> d(n, INT_MAX);      // shortest distances
     vector<bool> visited(n, false); // visited nodes
     MinHeap mh;                     // auto reheapifies since it's a priority queue alias

@@ -29,21 +29,27 @@ vector<vector<int>> floyd_warshall(const Graph &graph)
         {
             for (int j = 0; j < n; j++) // matrix column
             {
-                int ik = resulting_matrix[i][k];
-                int kj = resulting_matrix[k][j];
+                if (resulting_matrix[i][k] == INT_MAX || resulting_matrix[k][j] == INT_MAX)
+                    continue; // Skip if path through k is not possible
 
-                if (!(ik == INT_MAX || kj == INT_MAX)) // If we can go through k (no infinite weight) to prevent overflow
+                int indirect_weight = resulting_matrix[i][k] + resulting_matrix[k][j];
+                if (indirect_weight < resulting_matrix[i][j])
                 {
-                    // If going through k is shorter than direct path, update
-                    int indirect_weight = resulting_matrix[i][k] + resulting_matrix[k][j];
-                    if (indirect_weight < resulting_matrix[i][j])
-                    {
-                        resulting_matrix[i][j] = indirect_weight;
-                    }
+                    resulting_matrix[i][j] = indirect_weight;
                 }
             }
         }
     }
+
+    // Check for negative cycles by looking at the diagonal of the matrix.
+    for (int i = 0; i < n; i++)
+    {
+        if (resulting_matrix[i][i] < 0)
+        {
+            throw std::runtime_error("Graph contains a negative weight cycle");
+        }
+    }
+
     return resulting_matrix;
 }
 

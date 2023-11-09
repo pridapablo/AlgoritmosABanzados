@@ -53,11 +53,22 @@ int main()
   for (const auto &file_name : test_files)
   {
     cout << "Processing " << file_name << "...\n";
+    Graph graph;
+    bool read_success = true;
 
+    // Attempt to read the graph
     try
     {
-      Graph graph = read_graph(file_name);
+      graph = read_graph(file_name);
+    }
+    catch (const std::exception &e)
+    {
+      cerr << "An error occurred while reading the file: " << e.what() << endl;
+      read_success = false; // Reading failed
+    }
 
+    if (read_success)
+    {
       // Adjacency matrix
       cout << "\nAdjacency Matrix:\n";
       for (const auto &row : graph.matrix)
@@ -79,21 +90,37 @@ int main()
         }
         cout << "null" << endl;
       }
-
-      // Run Dijkstra's algorithm
-      auto all_distances = dijkstra_all(graph);
-      print_dijkstra_all(all_distances);
-
-      // Run Floyd-Warshall algorithm
-      auto resulting_matrix = floyd_warshall(graph);
-      print_floyd_warshall(resulting_matrix);
     }
-    catch (const std::exception &e)
+
+    if (read_success)
     {
-      cerr << "An error occurred: " << e.what() << endl;
+      // Attempt to run Dijkstra's algorithm
+      try
+      {
+        auto all_distances = dijkstra_all(graph);
+        print_dijkstra_all(all_distances);
+      }
+      catch (const std::exception &e)
+      {
+        cerr << "An error occurred while running Dijkstra's algorithm: " << e.what() << endl;
+      }
     }
+
+    if (read_success)
+    {
+      // Attempt to run Floyd-Warshall algorithm
+      try
+      {
+        auto resulting_matrix = floyd_warshall(graph);
+        print_floyd_warshall(resulting_matrix);
+      }
+      catch (const std::exception &e)
+      {
+        cerr << "An error occurred while running Floyd-Warshall's algorithm: " << e.what() << endl;
+      }
+    }
+
     cout << endl;
   }
-
   return 0;
 }

@@ -52,7 +52,7 @@ Graph read_graph(string filename)
         }
         if (c > max_value)
         {
-            throw runtime_error("Edge weight at node + " + to_string(a) + " exceeds INT_MAX/2");
+            throw runtime_error("Edge weight at node " + to_string(a) + " exceeds INT_MAX/2");
         }
         graph.matrix[a][b] = c;
         graph.adj_list[a].emplace_back(b, c);
