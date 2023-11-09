@@ -23,7 +23,9 @@ For Floyd-Warshall algorithm:
 */
 
 #include <iostream>
+#include "data_structs.hpp"
 #include "operations_read.hpp"
+#include "dijkstra.hpp"
 
 using namespace std;
 
@@ -32,8 +34,8 @@ int main()
   // Read graph into both an adjacency matrix and list
   Graph graph = read_graph("graph_input.txt");
 
-  // Print the adjacency matrix
-  cout << "Adjacency Matrix:" << endl;
+  // Adjacency matrix
+  cout << "\nAdjacency Matrix:\n";
   for (const auto &row : graph.matrix)
   {
     for (int val : row)
@@ -43,8 +45,8 @@ int main()
     cout << endl;
   }
 
-  // Print the adjacency list with weights
-  cout << "\nAdjacency List with Weights:" << endl;
+  // Adjacency list with weights
+  cout << "\nWeighted adjacency list:\n";
   for (const auto &adj_list : graph.adj_list)
   {
     for (const auto &edge : adj_list)
@@ -54,5 +56,10 @@ int main()
     cout << "null" << endl;
   }
 
+  // Run Dijkstra's algorithm
+  auto all_distances = dijkstra_all(graph);
+  print_dijkstra_all(all_distances);
+
+  // Run Floyd-Warshall algorithm
   return 0;
 }

@@ -9,12 +9,6 @@
 
 using namespace std;
 
-struct Graph
-{
-    vector<vector<int>> matrix;
-    vector<list<pair<int, int>>> adj_list;
-};
-
 /*
     Reads the directed graph from a file and stores it as both an adjacency matrix
     and an adjacency list. This function only reads the file once for efficiency.
