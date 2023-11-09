@@ -100,7 +100,16 @@ void print_dijkstra_all(const vector<vector<int>> &all_distances)
         {
             if (i != j)
             { // Avoid printing distance from a node to itself
-                cout << "node " << i + 1 << " to node " << j + 1 << " : " << all_distances[i][j] << "\n";
+                if (all_distances[i][j] == INT_MAX)
+                {
+                    cout << "node " << i + 1 << " to node " << j + 1 << " : "
+                         << "∞\n";
+                }
+                else
+                {
+
+                    cout << "node " << i + 1 << " to node " << j + 1 << " : " << all_distances[i][j] << "\n";
+                }
             }
         }
     }

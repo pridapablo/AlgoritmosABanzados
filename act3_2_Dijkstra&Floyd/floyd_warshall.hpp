@@ -61,7 +61,14 @@ void print_floyd_warshall(const vector<vector<int>> &resulting_matrix)
     {
         for (int val : row)
         {
-            cout << val << " ";
+            if (val == INT_MAX)
+            {
+                cout << "∞ ";
+            }
+            else
+            {
+                cout << val << " ";
+            }
         }
         cout << "\n";
     }
