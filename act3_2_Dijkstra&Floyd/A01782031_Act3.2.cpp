@@ -76,8 +76,8 @@ int main()
       // Attempt to run Dijkstra's algorithm
       try
       {
-        auto all_distances = dijkstraAll(graph);
-        printDijkstraAll(all_distances);
+        auto allDistances = dijkstraAll(graph);
+        printDijkstraAll(allDistances);
       }
       catch (const exception &e)
       {
