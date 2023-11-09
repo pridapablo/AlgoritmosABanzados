@@ -46,7 +46,7 @@ vector<vector<int>> floydWarshall(const Graph &graph)
     {
         if (resultingMatrix[i][i] < 0)
         {
-            throw std::runtime_error("Graph contains a negative weight cycle");
+            throw runtime_error("Graph contains a negative weight cycle");
         }
     }
 

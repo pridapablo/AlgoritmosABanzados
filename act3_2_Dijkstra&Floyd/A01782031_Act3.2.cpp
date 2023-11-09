@@ -93,7 +93,7 @@ int main()
         auto resultingMatrix = floydWarshall(graph);
         printFloydWarshall(resultingMatrix);
       }
-      catch (const std::exception &e)
+      catch (const exception &e)
       {
         cerr << "An error occurred while running Floyd-Warshall's algorithm: " << e.what() << endl;
       }
