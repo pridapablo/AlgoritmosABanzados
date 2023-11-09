@@ -13,6 +13,8 @@ using namespace std;
 
 /*
     Solves the "shortest path" problem using Dijkstra's algorithm.
+    Time complexity is O(n log n), where n is the number of nodes in the graph
+    since we use a priority queue.
 
     @param graph: the graph to solve
     @param start: the starting node
@@ -87,7 +89,7 @@ vector<vector<int>> dijkstra_all(const Graph &graph)
     by Dijkstra's algorithm.
 
     @param all_distances: a 2D vector containing the shortest distances between
-                          all pairs of nodes, as returned by dijkstra_all
+                          all pairs of nodes, as returned by dijkstra_all()
 */
 void print_dijkstra_all(const vector<vector<int>> &all_distances)
 {
