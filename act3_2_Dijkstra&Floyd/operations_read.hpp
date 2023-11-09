@@ -31,6 +31,7 @@ Graph read_graph(string filename)
     file >> n >> m;
 
     Graph graph;
+    int max_value = INT_MAX / 2;                     // Prevent overflow
     graph.matrix.resize(n, vector<int>(n, INT_MAX)); // No edges by default (infinite weight)
 
     // Set the diagonal to 0 (distance to itself)
@@ -48,6 +49,10 @@ Graph read_graph(string filename)
         if (a == b && c != 0) // Zero weight is allowed (won't affect shortest path)
         {
             throw runtime_error("Self-loop with non-zero weight detected at node " + to_string(a));
+        }
+        if (c > max_value)
+        {
+            throw runtime_error("Edge weight at node + " + to_string(a) + " exceeds INT_MAX/2");
         }
         graph.matrix[a][b] = c;
         graph.adj_list[a].emplace_back(b, c);

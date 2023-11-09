@@ -27,6 +27,8 @@ For Floyd-Warshall algorithm:
 */
 
 #include <iostream>
+#include <filesystem>
+
 #include "data_structs.hpp"
 #include "operations_read.hpp"
 #include "dijkstra.hpp"
@@ -36,37 +38,62 @@ using namespace std;
 
 int main()
 {
-  // Read graph into both an adjacency matrix and list
-  Graph graph = read_graph("graph_input.txt");
+  vector<string> test_files = {
+      "__tests__/complete_graph.txt",
+      "__tests__/hw_input.txt",
+      "__tests__/int_max.txt",
+      "__tests__/negative_cycles.txt",
+      "__tests__/negative_weights.txt",
+      "__tests__/no_edges.txt",
+      "__tests__/parallel_edges.txt",
+      "__tests__/self_loops.txt",
+      "__tests__/single_edge.txt",
+      "__tests__/zero_weight_cycle.txt"};
 
-  // Adjacency matrix
-  cout << "\nAdjacency Matrix:\n";
-  for (const auto &row : graph.matrix)
+  for (const auto &file_name : test_files)
   {
-    for (int val : row)
+    cout << "Processing " << file_name << "...\n";
+
+    try
     {
-      cout << val << " ";
+      Graph graph = read_graph(file_name);
+
+      // Adjacency matrix
+      cout << "\nAdjacency Matrix:\n";
+      for (const auto &row : graph.matrix)
+      {
+        for (int val : row)
+        {
+          cout << val << " ";
+        }
+        cout << endl;
+      }
+
+      // Adjacency list with weights
+      cout << "\nWeighted adjacency list:\n";
+      for (const auto &adj_list : graph.adj_list)
+      {
+        for (const auto &edge : adj_list)
+        {
+          cout << edge.first << "(w " << edge.second << ") -> ";
+        }
+        cout << "null" << endl;
+      }
+
+      // Run Dijkstra's algorithm
+      auto all_distances = dijkstra_all(graph);
+      print_dijkstra_all(all_distances);
+
+      // Run Floyd-Warshall algorithm
+      auto resulting_matrix = floyd_warshall(graph);
+      print_floyd_warshall(resulting_matrix);
+    }
+    catch (const std::exception &e)
+    {
+      cerr << "An error occurred: " << e.what() << endl;
     }
     cout << endl;
   }
 
-  // Adjacency list with weights
-  cout << "\nWeighted adjacency list:\n";
-  for (const auto &adj_list : graph.adj_list)
-  {
-    for (const auto &edge : adj_list)
-    {
-      cout << edge.first << "(w " << edge.second << ") -> ";
-    }
-    cout << "null" << endl;
-  }
-
-  // Run Dijkstra's algorithm
-  auto all_distances = dijkstra_all(graph);
-  print_dijkstra_all(all_distances);
-
-  // Run Floyd-Warshall algorithm
-  auto resulting_matrix = floyd_warshall(graph);
-  print_floyd_warshall(resulting_matrix);
   return 0;
 }
