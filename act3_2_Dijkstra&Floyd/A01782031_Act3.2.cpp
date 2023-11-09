@@ -39,8 +39,8 @@ using namespace std;
 int main()
 {
   vector<string> test_files = {
+      "__tests__/a_hw_input.txt",
       "__tests__/complete_graph.txt",
-      "__tests__/hw_input.txt",
       "__tests__/int_max.txt",
       "__tests__/negative_cycles.txt",
       "__tests__/negative_weights.txt",
@@ -65,31 +65,6 @@ int main()
     {
       cerr << "An error occurred while reading the file: " << e.what() << endl;
       read_success = false; // Reading failed
-    }
-
-    if (read_success)
-    {
-      // Adjacency matrix
-      cout << "\nAdjacency Matrix:\n";
-      for (const auto &row : graph.matrix)
-      {
-        for (int val : row)
-        {
-          cout << val << " ";
-        }
-        cout << endl;
-      }
-
-      // Adjacency list with weights
-      cout << "\nWeighted adjacency list:\n";
-      for (const auto &adj_list : graph.adj_list)
-      {
-        for (const auto &edge : adj_list)
-        {
-          cout << edge.first << "(w " << edge.second << ") -> ";
-        }
-        cout << "null" << endl;
-      }
     }
 
     if (read_success)
