@@ -4,7 +4,7 @@
 #include "types.hpp"     // MinHeap (priority queue)
 #include "heuristic.hpp" // heuristic
 #include <string>        // string
-#include <vector>        // vector}
+#include <vector>        // vector
 
 using namespace std;
 
