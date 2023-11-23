@@ -74,7 +74,7 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
         int x = current.nodeID / n;
         int y = current.nodeID % n;
 
-        // Iterate through the neighbors of the current node
+        // Iterate through orthogonal neighbors
         for (int i = 0; i < 4; i++)
         {
             int newX = x + dx[i];
@@ -86,14 +86,13 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
                 // Check if the neighbor is walkable
                 if (maze[newX][newY] == 1)
                 {
-                    int newID = newX * n + newY; // ID of the neighbor
-
                     // Calculate the cost of the path to the neighbor
                     int newCost = costSoFar[x][y] + 1;
 
                     // If the cost is lower than the current cost, update the cost and the parent
                     if (newCost < costSoFar[newX][newY])
                     {
+                        int newID = newX * n + newY; // ID of the neighbor
                         costSoFar[newX][newY] = newCost;
                         cameFrom[newX][newY] = {x, y};
                         mh.push(Node(newID, newCost + heuristic({newX, newY}, end)));
