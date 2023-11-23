@@ -9,6 +9,30 @@
 using namespace std;
 
 /*
+    Reconstruct the path from the starting point to the ending point.
+*/
+string reconstructPath(const vector<vector<pair<int, int>>> &cameFrom, pair<int, int> start, pair<int, int> end)
+{
+    string path = "";
+    pair<int, int> currentCell = end;
+
+    while (currentCell != start)
+    {
+        pair<int, int> parentCell = cameFrom[currentCell.first][currentCell.second];
+        if (parentCell.first == currentCell.first)
+        {
+            path = (parentCell.second < currentCell.second) ? "R" + path : "L" + path;
+        }
+        else
+        {
+            path = (parentCell.first < currentCell.first) ? "D" + path : "U" + path;
+        }
+        currentCell = parentCell;
+    }
+    return path;
+}
+
+/*
     A* algorithm (BFS + heuristic) for a square maze.
 
     @param maze: 0-1 matrix representing the maze, where 0 is a non-walkable
@@ -22,60 +46,27 @@ using namespace std;
 */
 string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, int> end)
 {
-    MinHeap mh;                                                                      // auto reheapifies since it's a priority queue
-    vector<vector<pair<int, int>>> cameFrom(n, vector<pair<int, int>>(n, {-1, -1})); // -1 means no parent
-    vector<vector<int>> costSoFar(n, vector<int>(n, INT_MAX));                       // current shortest path cost
+    MinHeap mh;
+    vector<vector<pair<int, int>>> cameFrom(n, vector<pair<int, int>>(n, {-1, -1}));
+    vector<vector<int>> costSoFar(n, vector<int>(n, INT_MAX));
 
-    int nodeID = start.first * n + start.second; // ID of the starting node
-    mh.push(Node(nodeID, 0));                    // push the starting node into the min heap
-    costSoFar[start.first][start.second] = 0;    // cost of the initial node is 0
-
-    // dx and dy arrays for the neighbors of a cell
-    int dx[4] = {-1, 0, 1, 0};
-    int dy[4] = {0, -1, 0, 1};
+    int nodeID = start.first * n + start.second;
+    mh.push(Node(nodeID, 0));
+    costSoFar[start.first][start.second] = 0;
 
     while (!mh.empty())
     {
-        Node current = mh.top(); // get the node with the lowest cost
-        mh.pop();                // remove the node from the min heap
+        Node current = mh.top();
+        mh.pop();
 
-        // If the current node is the goal node, return the path
         if (current.nodeID == end.first * n + end.second)
         {
-            string path = "";
-            pair<int, int> currentCell = end;
-
-            // Reconstruct the path
-            while (currentCell != start)
-            {
-                pair<int, int> parentCell = cameFrom[currentCell.first][currentCell.second];
-                if (parentCell.first == currentCell.first)
-                {
-                    if (parentCell.second < currentCell.second)
-                    {
-                        path = "R" + path;
-                    }
-                    else
-                    {
-                        path = "L" + path;
-                    }
-                }
-                else
-                {
-                    if (parentCell.first < currentCell.first)
-                    {
-                        path = "D" + path;
-                    }
-                    else
-                    {
-                        path = "U" + path;
-                    }
-                }
-                currentCell = parentCell;
-            }
-
-            return path;
+            return reconstructPath(cameFrom, start, end);
         }
+
+        // dx and dy arrays for the neighbors of a cell
+        int dx[4] = {-1, 0, 1, 0};
+        int dy[4] = {0, -1, 0, 1};
 
         // Get the coordinates of the current node from its ID
         int x = current.nodeID / n;
