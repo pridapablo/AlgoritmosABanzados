@@ -5,7 +5,6 @@
 #include "heuristic.hpp" // heuristic
 #include <string>        // string
 #include <vector>        // vector}
-#include <iostream>      // cout
 
 using namespace std;
 
@@ -35,14 +34,10 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
     int dx[4] = {-1, 0, 1, 0};
     int dy[4] = {0, -1, 0, 1};
 
-    cout << "Iniciando aStar con n = " << n << ", start = (" << start.first << ", " << start.second << "), end = (" << end.first << ", " << end.second << ")" << endl;
-
     while (!mh.empty())
     {
         Node current = mh.top(); // get the node with the lowest cost
         mh.pop();                // remove the node from the min heap
-
-        cout << "Nodo actual: ID = " << current.nodeID << ", Costo = " << current.cost << endl;
 
         // If the current node is the goal node, return the path
         if (current.nodeID == end.first * n + end.second)
@@ -54,18 +49,15 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
             while (currentCell != start)
             {
                 pair<int, int> parentCell = cameFrom[currentCell.first][currentCell.second];
-                cout << "Reconstruyendo: Nodo actual = (" << currentCell.first << ", " << currentCell.second << "), Nodo padre = (" << parentCell.first << ", " << parentCell.second << ")" << endl;
                 if (parentCell.first == currentCell.first)
                 {
                     if (parentCell.second < currentCell.second)
                     {
                         path = "R" + path;
-                        cout << "Movimiento: R (derecha)" << endl;
                     }
                     else
                     {
                         path = "L" + path;
-                        cout << "Movimiento: L (izquierda)" << endl;
                     }
                 }
                 else
@@ -73,12 +65,10 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
                     if (parentCell.first < currentCell.first)
                     {
                         path = "D" + path;
-                        cout << "Movimiento: D (abajo)" << endl;
                     }
                     else
                     {
                         path = "U" + path;
-                        cout << "Movimiento: U (arriba)" << endl;
                     }
                 }
                 currentCell = parentCell;
@@ -90,7 +80,6 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
         // Get the coordinates of the current node from its ID
         int x = current.nodeID / n;
         int y = current.nodeID % n;
-        cout << "Coordenadas del nodo actual: (" << x << ", " << y << ")" << endl;
 
         // Check the neighbors of the current node
         for (int i = 0; i < 4; i++)
@@ -101,8 +90,6 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
             // Solo explora el vecino si está dentro de los límites del laberinto
             if (newX >= 0 && newX < n && newY >= 0 && newY < n)
             {
-                cout << "Explorando vecino: (" << newX << ", " << newY << ")" << endl;
-
                 if (maze[newX][newY] == 1)
                 {
                     int newID = newX * n + newY; // ID of the neighbor
@@ -116,7 +103,6 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
                         costSoFar[newX][newY] = newCost;
                         cameFrom[newX][newY] = {x, y};
                         mh.push(Node(newID, newCost + heuristic({newX, newY}, end)));
-                        cout << "Actualizando cameFrom y costSoFar para (" << newX << ", " << newY << ")" << endl;
                     }
                 }
             }
