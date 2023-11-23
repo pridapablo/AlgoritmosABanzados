@@ -14,6 +14,7 @@ using namespace std;
 string reconstructPath(const vector<vector<pair<int, int>>> &cameFrom, pair<int, int> start, pair<int, int> end)
 {
     string path = "";
+    string newLetter = ""; // temporary variable to store the new letter
     pair<int, int> currentCell = end;
 
     while (currentCell != start)
@@ -21,12 +22,13 @@ string reconstructPath(const vector<vector<pair<int, int>>> &cameFrom, pair<int,
         pair<int, int> parentCell = cameFrom[currentCell.first][currentCell.second];
         if (parentCell.first == currentCell.first)
         {
-            path = (parentCell.second < currentCell.second) ? "R" + path : "L" + path;
+            newLetter = (parentCell.second < currentCell.second) ? "R" : "L";
         }
         else
         {
-            path = (parentCell.first < currentCell.first) ? "D" + path : "U" + path;
+            newLetter = (parentCell.first < currentCell.first) ? "D" : "U";
         }
+        path = newLetter + path;
         currentCell = parentCell;
     }
     return path;
@@ -64,7 +66,7 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
             return reconstructPath(cameFrom, start, end);
         }
 
-        // dx and dy arrays for the neighbors of a cell
+        // Von Neumann neighborhood (4 neighbors)
         int dx[4] = {-1, 0, 1, 0};
         int dy[4] = {0, -1, 0, 1};
 
@@ -72,15 +74,16 @@ string aStar(vector<vector<int>> &maze, int n, pair<int, int> start, pair<int, i
         int x = current.nodeID / n;
         int y = current.nodeID % n;
 
-        // Check the neighbors of the current node
+        // Iterate through the neighbors of the current node
         for (int i = 0; i < 4; i++)
         {
             int newX = x + dx[i];
             int newY = y + dy[i];
 
-            // Solo explora el vecino si está dentro de los límites del laberinto
+            // Bounds check
             if (newX >= 0 && newX < n && newY >= 0 && newY < n)
             {
+                // Check if the neighbor is walkable
                 if (maze[newX][newY] == 1)
                 {
                     int newID = newX * n + newY; // ID of the neighbor
